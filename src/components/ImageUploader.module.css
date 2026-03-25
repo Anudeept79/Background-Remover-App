@@ -1,0 +1,120 @@
+.wrapper {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.dropzone {
+    position: relative;
+    background-color: var(--color-surface);
+    border: 1.5px dashed rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.dropzone:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface-raised);
+}
+
+.active {
+    border-color: var(--color-primary);
+    background-color: rgba(99, 91, 255, 0.06);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.iconWrapper {
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(99, 91, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(99, 91, 255, 0.12);
+}
+
+.dropzone:hover .iconWrapper {
+    background-color: rgba(99, 91, 255, 0.14);
+    border-color: rgba(99, 91, 255, 0.24);
+}
+
+.uploadIcon {
+    color: var(--color-primary);
+    transition: color 0.2s ease;
+}
+
+.title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+}
+
+.subtitle {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+.meta {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+    padding: 0.2rem 0.625rem;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 999px;
+    letter-spacing: 0.01em;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.showOverlay {
+    opacity: 1;
+}
+
+.overlayContent {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.bounce {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
