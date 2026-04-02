@@ -8,7 +8,7 @@ import HowItWorks from './components/HowItWorks';
 import Principles from './components/Principles';
 import { processImage, preloadModel } from './utils/bgRemover';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Image as ImageIcon } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 
 function App() {
   useEffect(() => { preloadModel(); }, []);
@@ -74,6 +74,11 @@ function App() {
     setProcessedImage(item.processedUrl);
     setIsEditing(false);
     setError(null);
+  };
+
+  // Remove an item from history
+  const removeFromHistory = (id) => {
+    setHistory((prev) => prev.filter((h) => h.id !== id));
   };
 
   // "+" button triggers a hidden file input
@@ -289,37 +294,65 @@ function App() {
 
                   {/* History thumbnails */}
                   {history.map((item) => (
-                    <button
+                    <div
                       key={item.id}
-                      onClick={() => handleLoadHistory(item)}
-                      style={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: 'var(--radius-md)',
-                        border: item.originalUrl === originalImage
-                          ? '2px solid var(--color-primary)'
-                          : '1px solid var(--color-border)',
-                        overflow: 'hidden',
-                        cursor: 'pointer',
-                        padding: 0,
-                        background: 'var(--color-surface)',
-                        flexShrink: 0,
-                        transition: 'border-color 0.15s, transform 0.15s',
-                      }}
-                      onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.08)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
-                      title="Load this image"
+                      style={{ position: 'relative', flexShrink: 0 }}
                     >
-                      <img
-                        src={item.processedUrl}
-                        alt=""
+                      {/* Close / remove button */}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); removeFromHistory(item.id); }}
                         style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
+                          position: 'absolute',
+                          top: -6,
+                          right: -6,
+                          width: 18,
+                          height: 18,
+                          borderRadius: '50%',
+                          background: 'rgba(239, 68, 68, 0.9)',
+                          border: '1.5px solid var(--color-bg)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          zIndex: 2,
+                          padding: 0,
+                          color: 'white',
+                          transition: 'transform 0.12s',
                         }}
-                      />
-                    </button>
+                        onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.2)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+                        title="Remove from recent"
+                      >
+                        <X size={10} strokeWidth={3} />
+                      </button>
+
+                      {/* Thumbnail */}
+                      <button
+                        onClick={() => handleLoadHistory(item)}
+                        style={{
+                          width: 56,
+                          height: 56,
+                          borderRadius: 'var(--radius-md)',
+                          border: item.originalUrl === originalImage
+                            ? '2px solid var(--color-primary)'
+                            : '1px solid var(--color-border)',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          padding: 0,
+                          background: 'var(--color-surface)',
+                          transition: 'border-color 0.15s, transform 0.15s',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.06)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+                        title="Load this image"
+                      >
+                        <img
+                          src={item.processedUrl}
+                          alt=""
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      </button>
+                    </div>
                   ))}
                 </div>
               </motion.div>
