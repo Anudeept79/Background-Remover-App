@@ -1,87 +1,100 @@
 import React, { useState, useRef } from 'react';
 import { UploadCloud, Image as ImageIcon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import styles from './ImageUploader.module.css';
 
-const ImageUploader = ({ onUpload }) => {
-    const [isDragging, setIsDragging] = useState(false);
-    const fileInputRef = useRef(null);
+const MAX_FILE_SIZE_MB = 10;
+const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        setIsDragging(true);
-    };
+const ImageUploader = ({ onUpload, onError }) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
 
-    const handleDragLeave = (e) => {
-        e.preventDefault();
-        setIsDragging(false);
-    };
+  const validateAndUpload = (file) => {
+    if (!ACCEPTED_TYPES.includes(file.type)) {
+      onError?.('Please upload a JPG, PNG, or WebP image.');
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      onError?.(`Image must be under ${MAX_FILE_SIZE_MB} MB.`);
+      return;
+    }
+    onUpload(file);
+  };
 
-    const handleDrop = (e) => {
-        e.preventDefault();
-        setIsDragging(false);
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            validateAndUpload(files[0]);
-        }
-    };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
 
-    const handleFileSelect = (e) => {
-        const files = e.target.files;
-        if (files.length > 0) {
-            validateAndUpload(files[0]);
-        }
-    };
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
 
-    const validateAndUpload = (file) => {
-        if (!file.type.match('image.*')) {
-            alert('Please upload an image file (JPG, PNG, WebP)');
-            return;
-        }
-        onUpload(file);
-    };
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) validateAndUpload(file);
+  };
 
-    return (
-        <div className={styles.wrapper}>
-            <motion.div
-                className={`${styles.dropzone} ${isDragging ? styles.active : ''}`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current.click()}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-            >
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileSelect}
-                    accept="image/png, image/jpeg, image/webp"
-                    hidden
-                />
+  const handleFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (file) validateAndUpload(file);
+    // Reset so same file can be re-selected after an error
+    e.target.value = '';
+  };
 
-                <div className={styles.content}>
-                    <div className={styles.iconWrapper}>
-                        <UploadCloud size={22} className={styles.uploadIcon} />
-                    </div>
-                    <h3 className={styles.title}>Upload an image</h3>
-                    <p className={styles.subtitle}>
-                        Drag & drop or click to upload
-                    </p>
-                    <div className={styles.meta}>
-                        JPG, PNG, WebP • Max 10MB
-                    </div>
-                </div>
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fileInputRef.current?.click();
+    }
+  };
 
-                <div className={`${styles.overlay} ${isDragging ? styles.showOverlay : ''}`}>
-                    <div className={styles.overlayContent}>
-                        <ImageIcon size={28} className={styles.bounce} />
-                        <p>Drop to remove background!</p>
-                    </div>
-                </div>
-            </motion.div>
+  return (
+    <div className={styles.wrapper}>
+      <motion.div
+        className={`${styles.dropzone} ${isDragging ? styles.active : ''}`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onClick={() => fileInputRef.current?.click()}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="button"
+        aria-label="Upload image — click or drag and drop"
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.99 }}
+      >
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileSelect}
+          accept="image/png,image/jpeg,image/webp"
+          hidden
+        />
+
+        <div className={styles.content}>
+          <div className={styles.iconWrapper}>
+            <UploadCloud size={24} className={styles.uploadIcon} />
+          </div>
+          <h3 className={styles.title}>Upload an image</h3>
+          <p className={styles.subtitle}>Drag & drop or tap to upload</p>
+          <div className={styles.meta}>JPG · PNG · WebP &nbsp;·&nbsp; Max {MAX_FILE_SIZE_MB} MB</div>
         </div>
-    );
+
+        {/* Drag-over overlay */}
+        <div className={`${styles.overlay} ${isDragging ? styles.showOverlay : ''}`}>
+          <div className={styles.overlayContent}>
+            <ImageIcon size={30} className={styles.bounce} />
+            <p>Drop to remove background!</p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
 };
 
 export default ImageUploader;

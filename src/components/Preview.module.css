@@ -1,173 +1,260 @@
 .container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
 }
 
+/* ══════════════════════
+   Side-by-side grid
+   ══════════════════════ */
 .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
 }
 
 .card {
-    background-color: var(--color-surface);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.header {
-    padding: 0.625rem 0.875rem;
-    border-bottom: 1px solid var(--color-border);
-    background-color: rgba(255, 255, 255, 0.02);
-    display: flex;
-    align-items: center;
+.cardHeader {
+  padding: 0.5rem 0.875rem;
+  border-bottom: 1px solid var(--color-border);
+  background-color: rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
 }
 
 .badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.125rem 0.5rem;
-    border-radius: 9999px;
-    font-size: 0.6875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    background-color: rgba(255, 255, 255, 0.06);
-    color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-muted);
 }
 
 .badgeSuccess {
-    background-color: rgba(16, 185, 129, 0.12);
-    color: #34D399;
-    border: 1px solid rgba(16, 185, 129, 0.16);
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .imageWrapper {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #0c0c12;
-    overflow: hidden;
+  flex: 1;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0c0c12;
+  overflow: hidden;
 }
 
 .transparentBg {
-    background-image:
-        linear-gradient(45deg, #1a1a22 25%, transparent 25%),
-        linear-gradient(-45deg, #1a1a22 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #1a1a22 75%),
-        linear-gradient(-45deg, transparent 75%, #1a1a22 75%);
-    background-size: 16px 16px;
-    background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
-    background-color: #141419;
+  background-image:
+    linear-gradient(45deg, #1a1a22 25%, transparent 25%),
+    linear-gradient(-45deg, #1a1a22 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1a1a22 75%),
+    linear-gradient(-45deg, transparent 75%, #1a1a22 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  background-color: #141419;
 }
 
 .image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-.footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 64px;
+/* ══════════════════════
+   Primary action buttons
+   ══════════════════════ */
+.primaryActions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.feedbackContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.875rem;
-    background-color: var(--color-surface);
-    padding: 1.25rem 1.5rem;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-md);
+.btnActive {
+  color: var(--color-primary) !important;
+  border-color: rgba(99, 91, 255, 0.3) !important;
+  background-color: rgba(99, 91, 255, 0.1) !important;
 }
 
-.feedbackTitle {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-text-secondary);
+/* ══════════════════════
+   Background color picker
+   ══════════════════════ */
+.bgPicker {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
-.feedbackButtons {
-    display: flex;
-    gap: 0.75rem;
+.bgPickerLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.bgSwatches {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.swatch {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.15s;
+  overflow: hidden;
+}
+
+.swatch:hover {
+  border-color: var(--color-border-hover);
+  transform: scale(1.15);
+}
+
+.swatchActive {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(99, 91, 255, 0.3);
+  transform: scale(1.15);
+}
+
+.swatchCheckerboard {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(45deg, #555 25%, transparent 25%),
+    linear-gradient(-45deg, #555 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #555 75%),
+    linear-gradient(-45deg, transparent 75%, #555 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+  background-color: #888;
+}
+
+/* ══════════════════════
+   Feedback row
+   ══════════════════════ */
+.feedbackRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.25rem 0;
+}
+
+.feedbackQuestion {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-right: 0.125rem;
 }
 
 .feedbackBtn {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.4375rem 0.875rem;
-    border-radius: var(--radius-md);
-    font-weight: 500;
-    font-size: 0.8125rem;
-    transition: all 0.15s ease;
-    border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .likeBtn {
-    background-color: rgba(99, 91, 255, 0.08);
-    color: #818CF8;
-    border-color: rgba(99, 91, 255, 0.16);
+  background-color: rgba(99, 91, 255, 0.08);
+  color: #818CF8;
+  border-color: rgba(99, 91, 255, 0.18);
 }
 
 .likeBtn:hover {
-    background-color: rgba(99, 91, 255, 0.16);
+  background-color: rgba(99, 91, 255, 0.16);
 }
 
 .dislikeBtn {
-    background-color: rgba(239, 68, 68, 0.08);
-    color: #F87171;
-    border-color: rgba(239, 68, 68, 0.16);
+  background-color: rgba(239, 68, 68, 0.06);
+  color: #F87171;
+  border-color: rgba(239, 68, 68, 0.14);
 }
 
 .dislikeBtn:hover {
-    background-color: rgba(239, 68, 68, 0.16);
+  background-color: rgba(239, 68, 68, 0.14);
 }
 
-.actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.875rem;
+.feedbackThanks {
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  padding: 0.125rem 0;
 }
 
-.buttonGroup {
-    display: flex;
-    gap: 0.625rem;
-}
-
-.successMessage {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    color: #34D399;
-    font-weight: 500;
-    font-size: 0.8125rem;
-}
-
-.errorMessage {
-    color: #F87171;
-    font-weight: 500;
-    font-size: 0.8125rem;
-}
-
+/* ══════════════════════
+   Mobile
+   ══════════════════════ */
 @media (max-width: 768px) {
-    .grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-    }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0.625rem;
+  }
+
+  .imageWrapper {
+    aspect-ratio: 3 / 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .primaryActions {
+    gap: 0.375rem;
+  }
+
+  .feedbackQuestion {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .primaryActions {
+    flex-direction: column;
+  }
+
+  .primaryActions .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

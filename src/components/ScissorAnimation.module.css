@@ -1,0 +1,189 @@
+/* ── Scene container with perspective ── */
+.scene {
+  perspective: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+/* ── Isometric card ── */
+.card {
+  position: relative;
+  width: 150px;
+  height: 110px;
+  border-radius: 14px;
+  overflow: hidden;
+  transform: rotateX(6deg) rotateY(-8deg) scale(1);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 2px 8px rgba(99, 91, 255, 0.15);
+  animation: cardFloat 3s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+  0%, 100% { transform: rotateX(6deg) rotateY(-8deg) translateY(0); }
+  50% { transform: rotateX(6deg) rotateY(-8deg) translateY(-4px); }
+}
+
+/* ── Checkerboard (transparency) ── */
+.checkerboard {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(45deg, #1e1e28 25%, transparent 25%),
+    linear-gradient(-45deg, #1e1e28 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1e1e28 75%),
+    linear-gradient(-45deg, transparent 75%, #1e1e28 75%);
+  background-size: 14px 14px;
+  background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+  background-color: #16161e;
+}
+
+/* ── Person silhouette ── */
+.silhouette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── Background being cut away ── */
+.bgLayer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #4a6fa5 0%, #7b9fd4 40%, #b8d0e8 80%, #e8d5b7 100%);
+  z-index: 1;
+  animation: cutReveal 4s ease-in-out infinite;
+}
+
+@keyframes cutReveal {
+  0%, 8% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  52%, 68% {
+    clip-path: inset(0 0 0 100%);
+    opacity: 1;
+  }
+  75% {
+    clip-path: inset(0 0 0 100%);
+    opacity: 0;
+  }
+  90%, 100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+/* ── Dashed cut guide line ── */
+.cutGuide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  z-index: 4;
+  border-left: 2px dashed rgba(255, 255, 255, 0.35);
+  animation: guideMove 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes guideMove {
+  0%, 5% { transform: translateX(-2px); opacity: 0; }
+  12% { opacity: 0.7; }
+  52% { transform: translateX(150px); opacity: 0.7; }
+  58% { opacity: 0; }
+  100% { opacity: 0; transform: translateX(-2px); }
+}
+
+/* ── Scissors track ── */
+.scissorTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.scissorWrapper {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%) rotate(0deg);
+  color: white;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+  animation: scissorMove 4s ease-in-out infinite;
+}
+
+@keyframes scissorMove {
+  0%, 5% {
+    left: -4%;
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(-5deg);
+  }
+  30% {
+    transform: translate(-50%, -50%) rotate(5deg);
+  }
+  40% {
+    transform: translate(-50%, -50%) rotate(-3deg);
+  }
+  52% {
+    left: 104%;
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(4deg);
+  }
+  58% {
+    opacity: 0;
+  }
+  100% {
+    left: -4%;
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
+/* ── Sparkle particles ── */
+.sparkles {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #a78bfa;
+  animation: sparklePop 4s ease-in-out infinite;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+@keyframes sparklePop {
+  0%, 40% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1.5); }
+  60% { opacity: 0.8; transform: scale(0.8); }
+  70% { opacity: 0; transform: scale(0); }
+  100% { opacity: 0; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .card {
+    width: 120px;
+    height: 88px;
+  }
+}
